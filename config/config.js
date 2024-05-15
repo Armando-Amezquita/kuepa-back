@@ -5,7 +5,7 @@ const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const MONGO_DBNAME = process.env.MONGO_DBNAME;
 const PORT = process.env.PORT || 3000;
-const SECRET = process.env.SECRET;
+const SECRET = process.env.SECRET_KEY;
 
 module.exports = {
     MONGO_DBNAME,
