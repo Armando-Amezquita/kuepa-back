@@ -15,6 +15,7 @@ class ClassAuth {
     if (!matchPassword) throw new Error(`Password or user invalid`);
 
     const response = {
+      _id: accountFound._id,
       user: accountFound.user,
       names: accountFound.names,
       surnames: accountFound.surnames || "",
@@ -27,7 +28,6 @@ class ClassAuth {
     });
 
     await User.findOneAndUpdate({ user: accountFound.user }, { token: token });
-
     return {
       status: 200,
       message: "Welcome",

@@ -7,10 +7,10 @@ const verifyToken = async (req, res, next) => {
     const token = req.headers["token"];
     if (!token) throw new Error("Token not send");
     const decoded = jwt.verify(token, SECRET);
-    req.accountId = decoded.id;
+    req.user = decoded;
     next();
   } catch (error) {
-    next(Boom.badData(error));
+    console.log('error :>> ', error);
   }
 };
 
