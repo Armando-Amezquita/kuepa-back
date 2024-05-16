@@ -1,15 +1,33 @@
 const config = require('config')
-const { app } = require('./app.js');
+const { serverConn } = require('./app.js');
 const { connectDB } = require('./database/db');
+const SocketIO = require('socket.io');    
 connectDB();
+
 
 const port = config.get("app.port") || 3001;
 
-const server = app.listen(port, () =>
+const server = serverConn.listen(port, () =>
   console.log(`[server] Connected to port ${port}`)
 );
+
+
+let io = SocketIO(server, {
+  cors: {
+    origin: "*"
+  }
+});
+    
+io.on('connection', (socket) => {
+  console.log('Nuevo cliente conectado');
+  socket.on('disconnect', () => {
+    console.log('usuario desconectado')
+  })
+});
 
 process.on('unhandledRejection', (err) => {
   console.error(`[server] An error occurred: ${err.message}`);
   server.close(() => process.exit(1));
 });
+
+exports.io = io

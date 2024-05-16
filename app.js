@@ -1,9 +1,9 @@
 const express = require('express');
 const helmet = require('helmet')
 const cors = require('cors'); 
-const { router } = require('./src/router');
-const socketIO = require('./src/socket')
 const morgan = require('morgan')
+const http = require("http");
+const { router } = require('./src/router');
 
 const app = express();
 
@@ -23,11 +23,6 @@ app.use(morgan("dev"));
 // //Routes
 app.use("/", router);
 
-// Manejo de rutas no encontradas (404)
-// app.use((req, res) => {
-//   res.status(404).send('Ruta no encontrada');
-// });
-
 // Manejo de errores
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -35,8 +30,8 @@ app.use((err, req, res, next) => {
   res.status(500).send('Error del servidor');
 });
 
+const serverConn = http.createServer(app);
 module.exports = {
-  app
+  serverConn
 }
 
-// socketIO.createSocketInstance(server)
